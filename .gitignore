@@ -1,0 +1,5 @@
+node_modules
+_frontend
+.vscode
+config.json
+pnpm-lock.yaml
