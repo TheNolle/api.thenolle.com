@@ -5,7 +5,7 @@ import { createErrorImage, manipulateImage } from '../../functions/image.utils.j
 
 const router = Router()
 
-router.get('/*', async (request, response) => {
+router.get('/head/*', async (request, response) => {
     try {
         const url = request.params[0]
 
@@ -14,6 +14,8 @@ router.get('/*', async (request, response) => {
         if (!/^https{0,1}:\/\/.+$/.test(url)) return response.send(await createErrorImage('Invalid URL format.'))
 
         const imageResponse = await axios.get(url, { responseType: 'arraybuffer' })
+        // 1000000 bytes = 1 Megabyte = 1 * 1000000
+        if (imageResponse.headers['content-length'] > (1 * 1000000)) return response.send(await createErrorImage('Image is too big.'))
         if (!imageResponse.headers['content-type'].startsWith('image/')) return response.send(await createErrorImage('Invalid skin URL.'))
 
         const image = sharp(imageResponse.data)
