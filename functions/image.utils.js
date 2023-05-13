@@ -27,3 +27,21 @@ export async function manipulateImage(imageBuffer, x1, y1, width1, height1, x2, 
 
     return manipulatedImage
 }
+
+export async function resizeImage(buffer, height) {
+    if (!height) return buffer
+    const image = sharp(buffer)
+    const resizedImageBuffer = await image.resize({ height: height, kernel: sharp.kernel.nearest }).toBuffer()
+    return resizedImageBuffer
+}
+
+export async function handleImageSize(imageData, size) {
+    if (size) {
+        if (size < 1) size = 1
+        if (size > 3840) size = 3840
+        const newSize = parseInt(size, 10)
+        if (isNaN(newSize)) return imageData
+        return await resizeImage(imageData, newSize)
+    }
+    return imageData
+}
