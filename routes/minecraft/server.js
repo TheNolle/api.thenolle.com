@@ -22,6 +22,13 @@ router.get('/blockedlist/:position', async (request, response) => {
         .catch(error => { return response.status(500).json({ errorMessage: error.message }) })
 })
 
+router.get('/:ip', async (request, response) => {
+    const { ip } = request.params
+    MinecraftServerUtil.status(ip)
+        .then((res) => response.json(res))
+        .catch((error) => response.status(500).json({ errorMessage: error.message }))
+})
+
 router.get('/motd/:ip', async (request, response) => {
     const { ip } = request.params
     MinecraftServerUtil.status(ip)
