@@ -10,8 +10,11 @@ router.get('/', async (request, response) => {
 router.get('/latest', async (request, response) => {
     const velocity = new PaperMC('velocity')
     const version = await velocity.getLatestVersion()
+    if (!version) return response.status(404).send('Not found')
     const buildNumber = await velocity.getLatestBuildNumber(version)
+    if (!buildNumber) return response.status(404).send('Not found')
     const url = await velocity.finalURL(version, buildNumber)
+    if (!url) return response.status(404).send('Not found')
     response.redirect(url)
 })
 
@@ -25,7 +28,9 @@ router.get('/:version/latest', async (request, response) => {
     const version = versions.includes(request.params.version) ? request.params.version : null
     if (!version) return velocity.notFound(response, 'Version not found')
     const buildNumber = await velocity.getLatestBuildNumber(version)
+    if (!buildNumber) return response.status(404).send('Not found')
     const url = await velocity.finalURL(version, buildNumber)
+    if (!url) return response.status(404).send('Not found')
     return response.redirect(url)
 })
 
@@ -38,6 +43,7 @@ router.get('/:version/:buildNumber', async (request, response) => {
     const buildNumber = buildNumbers.includes(parseInt(request.params.buildNumber)) ? parseInt(request.params.buildNumber) : null
     if (!buildNumber) return velocity.notFound(response, 'Build number not found')
     const url = await velocity.finalURL(version, buildNumber)
+    if (!url) return response.status(404).send('Not found')
     return response.redirect(url)
 })
 

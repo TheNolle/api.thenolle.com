@@ -1,4 +1,5 @@
 import axios from 'axios'
+import puppeteer from 'puppeteer'
 
 async function getMinecraftData(url) {
     try {
@@ -83,5 +84,76 @@ export class PaperMC {
     }
     notFound(response, message) {
         return response.status(404).send(message)
+    }
+}
+
+
+export class Forge {
+    constructor() {
+        this.version
+        this.buildNumber
+        this.url
+        this.puppeteerOptions = { headless: 'new', args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-software-rasterizer'], defaultViewport: null }
+    }
+    setVersion(version) {
+        this.version = version
+    }
+    setBuildNumber(buildNumber) {
+        this.buildNumber = buildNumber
+    }
+    setURL(url) {
+        this.url = url
+    }
+    async finalURL(version, buildNumber) {
+        const maven = `https://maven.minecraftforge.net/net/minecraftforge/forge/${version}-${buildNumber}/forge-${version}-${buildNumber}`
+        const cdn = `https://files.minecraftforge.net/maven/net/minecraftforge/forge/${version}-${buildNumber}/forge-${version}-${buildNumber}`
+        await axios.get(maven + '-installer.jar').then(() => this.setURL(`${maven}-installer.jar`)).catch(async () => {
+            await axios.get(maven + '-server.jar').then(() => this.setURL(`${maven}-server.jar`)).catch(async () => {
+                await axios.get(maven + '-installer.zip').then(() => this.setURL(`${maven}-installer.zip`)).catch(async () => {
+                    await axios.get(maven + '-server.zip').then(() => this.setURL(`${maven}-server.zip`)).catch(async () => {
+                        await axios.get(cdn + '-installer.jar').then(() => this.setURL(`${cdn}-installer.jar`)).catch(async () => {
+                            await axios.get(cdn + '-installer.zip').then(() => this.setURL(`${cdn}-installer.zip`)).catch(async () => {
+                                await axios.get(cdn + '-server.jar').then(() => this.setURL(`${cdn}-server.jar`)).catch(async () => {
+                                    await axios.get(cdn + '-server.zip').then(() => this.setURL(`${cdn}-server.zip`)).catch(async () => {
+                                        this.setURL(null)
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+        return this.url
+    }
+    async getLatestVersion() {
+        try {
+            const browser = await puppeteer.launch(this.puppeteerOptions)
+            const page = await browser.newPage()
+            await page.goto('https://files.minecraftforge.net/net/minecraftforge/forge/')
+            this.setVersion(await page.evaluate(() => {
+                const element = document.querySelector('div.sidebar-left > aside > section > ul > div > div > li:nth-child(1) > ul > li:nth-child(1) > a')
+                return element ? element.innerText : null
+            }))
+            await browser.close()
+        } catch (error) {
+            return null
+        }
+        return this.version
+    }
+    async getLatestBuildNumber(version = this.version) {
+        try {
+            const browser = await puppeteer.launch(this.puppeteerOptions)
+            const page = await browser.newPage()
+            await page.goto(`https://files.minecraftforge.net/net/minecraftforge/forge/index_${version}.html`)
+            this.setBuildNumber(await page.evaluate(() => {
+                const element = document.querySelector('div.sidebar-sticky-wrapper-content > div.promos-wrapper > div.promos-content > div.downloads > div.download > div.title > small')
+                return element ? element.innerText.split(' - ')[1] : null
+            }))
+            await browser.close()
+        } catch (error) {
+            return null
+        }
+        return this.buildNumber
     }
 }

@@ -9,17 +9,9 @@ export function createErrorImage(message) {
 
 export async function manipulateImage(imageBuffer, x1, y1, width1, height1, x2, y2, width2, height2) {
     const image = sharp(imageBuffer)
-
-    // Extract the first part of the image
     const part1 = await image.clone().extract({ left: x1, top: y1, width: width1, height: height1 }).toBuffer()
-
-    // Extract the second part of the image
     const part2 = await image.clone().extract({ left: x2, top: y2, width: width2, height: height2 }).toBuffer()
-
-    // Create a new image with part1 as the base
     const baseImage = sharp(part1)
-
-    // Place the second part on top of the first part
     const manipulatedImage = await baseImage
         .composite([{ input: part2, left: 0, top: 0 }])
         .png()
