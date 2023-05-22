@@ -87,6 +87,55 @@ export class PaperMC {
     }
 }
 
+export class PurpurMC {
+    constructor() {
+        this.version
+        this.buildNumber
+    }
+    setVersion(version) {
+        this.version = version
+    }
+    setBuildNumber(buildNumber) {
+        this.buildNumber = buildNumber
+    }
+    async finalURL(version, buildNumber) {
+        return `https://api.purpurmc.org/v2/purpur/${version}/${buildNumber}/download`
+    }
+    getVersions() {
+        const url = `https://api.purpurmc.org/v2/purpur`
+        async function request() {
+            const response = await axios.get(url)
+            const versions = response.data.versions
+            return await versions
+        }
+        const versions = request()
+        return versions
+    }
+    async getLatestVersion() {
+        const versions = await this.getVersions()
+        this.setVersion(versions[versions.length - 1])
+        return versions[versions.length - 1]
+    }
+    getBuildNumbers(version = this.version) {
+        const url = `https://api.purpurmc.org/v2/purpur/${version}`
+        async function request() {
+            const response = await axios.get(url)
+            const builds = response.data.builds.all
+            return await builds
+        }
+        const builds = request()
+        return builds
+    }
+    async getLatestBuildNumber(version = this.version) {
+        const buildNumbers = await this.getBuildNumbers(version)
+        this.setBuildNumber(buildNumbers[buildNumbers.length - 1])
+        return buildNumbers[buildNumbers.length - 1]
+    }
+    notFound(response, message) {
+        return response.status(404).send(message)
+    }
+}
+
 
 export class Forge {
     constructor() {
