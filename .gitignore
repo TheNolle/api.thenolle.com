@@ -1,0 +1,11 @@
+#! Files
+.env
+docker-compose.yml
+pnpm-lock.yaml
+
+#? Folders (hidden)
+.vscode/
+node_modules/
+
+#* Folders (special)
+secrets/
