@@ -18,13 +18,13 @@ Detailed documentation for each endpoint, complete with examples, can be found i
 The API is built using **Node.js** and **Express**, ensuring fast performance and reliability. We aim for high-quality code with a focus on scalability and user experience.
 
 ## 🤝 Contributing
-Want to add a feature or fix a bug? We welcome contributions! Please check out our [contributing guidelines](https://github.com/thenolle/api.thenolle.com/CONTRIBUTING.md) to get started.
+Want to add a feature or fix a bug? We welcome contributions! Please check out our [contributing guidelines](CONTRIBUTING.md) to get started.
 
 ## 💬 Support
 Facing an issue? Have a suggestion? Join our [Discord](https://discord.com/invite/86yVsMVN9z) or raise an issue on the GitHub repo. We're here to help!
 
 ## 📜 License
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/thenolle/api.thenolle.com/LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## 🌟 Final Words
 Thank you for checking out **api.thenolle.com**! Whether you're here to use the API or contribute, we appreciate your interest and support. Happy coding! 🚀
