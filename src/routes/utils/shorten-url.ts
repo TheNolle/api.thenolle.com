@@ -10,7 +10,7 @@ const UrlSchema = new mongoose.Schema({
     lastVisited: { type: Date, required: true, default: Date.now },
     createdAt: { type: Date, required: true, default: Date.now }
 })
-UrlSchema.index({ 'lastVisited': 1 }, { expireAfterSeconds: 6 * 30 * 24 * 60 * 60, unique: true })
+UrlSchema.index({ 'lastVisited': 1 }, { expireAfterSeconds: 15552000 /* 6 months */, unique: true })
 const UrlModel = mongoose.model('Url', UrlSchema)
 
 router.post('/', async (request: express.Request, response: express.Response) => {
@@ -29,7 +29,7 @@ router.post('/', async (request: express.Request, response: express.Response) =>
             urlData = new UrlModel({ originalUrl: url, shortId: shortId })
             await urlData.save()
         }
-        response.json({ originalUrl: url, shortenedUrl: `http://api.thenolle.com/utils/shortenurl/${urlData.shortId}` })
+        response.json({ originalUrl: url, shortenedUrl: `http://api.thenolle.com/utils/shorten-url/${urlData.shortId}` })
     } catch (error: any) {
         console.error(`Error creating short URL (http://api.thenolle.com${request.originalUrl}): ${error.message}`)
         if (error.name === 'MongoError') response.status(500).json({ error: 'Database error.' })

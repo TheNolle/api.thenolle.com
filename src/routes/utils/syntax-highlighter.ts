@@ -9,6 +9,7 @@ router.post('/', (request: express.Request, response: express.Response) => {
         const code: string = String(request.body.code || '').trim()
         const language: string = String(request.body.language || '').trim()
         if (!code) return response.status(400).json({ error: 'Code is required' })
+        if (!language) return response.status(400).json({ error: 'Language is required' })
         if (language && !highlightjs.getLanguage(language)) return response.status(400).json({ error: 'Invalid or unsupported language' })
         const highlightedCode = language ? highlightjs.highlight(code, { language }).value : highlightjs.highlightAuto(code).value
         response.json({ highlightedCode })
