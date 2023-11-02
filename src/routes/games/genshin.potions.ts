@@ -15,17 +15,6 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     }
 })
 
-router.get('/all', async (request: express.Request, response: express.Response) => {
-    try {
-        const potionsResponse = await axios.get(`${baseURL}/all`)
-        const potions = potionsResponse.data
-        response.status(200).json(potions)
-    } catch (error: any) {
-        console.error(`Error fetching Genshin Impact potions (https://api.thenolle.com${request.originalUrl}):`, error.message)
-        response.status(500).json({ error: 'Failed to fetch potions' })
-    }
-})
-
 router.get('/:potionName', async (request: express.Request, response: express.Response) => {
     const potionName = request.params.potionName
     try {
