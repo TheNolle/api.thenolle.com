@@ -3,11 +3,7 @@
   "info": {
     "version": "1.4.78-b",
     "title": "Nolly's API - Documentation",
-    "description": "Welcome to the api.thenolle.com! This API is designed to be your one-stop-shop for a plethora of utilities, tools, and fun features. Whether you're a developer in need of a quick utility or someone curious to explore, there's something here for everyone! 🌟",
-    "contact": {
-      "name": "Support",
-      "url": "https://discord.com/invite/86yVsMVN9z"
-    }
+    "description": "Welcome to the api.thenolle.com! This API is designed to be your one-stop-shop for a plethora of utilities, tools, and fun features. Whether you're a developer in need of a quick utility or someone curious to explore, there's something here for everyone! 🌟<br>Here are some useful links: <ul><li><a href='https://discord.com/invite/86yVsMVN9z' target='_blank'>Support Server</a></li><li><a href='https://github.com/thenolle/api.thenolle.com' target='_blank'>GitHub Repository</a></li>"
   },
   "host": "api.thenolle.com",
   "basePath": "/",
