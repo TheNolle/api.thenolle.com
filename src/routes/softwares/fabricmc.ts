@@ -26,13 +26,21 @@ router.get('/versions/:minecraftVersion', async (request, response) => {
     }
 })
 
-router.get('/versions/:minecraftVersion/:fabricLoader', async (request, response) => {
+router.get('/versions/installer', async (request, response) => {
     try {
-        const minecraftVersion:string = String(request.params.minecraftVersion || '').trim()
-        const fabricLoader:string = String(request.params.fabricLoader || '').trim()
-        if (!minecraftVersion) return response.status(400).json({ error: 'Minecraft version is required' })
-        if (!fabricLoader) return response.status(400).json({ error: 'Fabric Loader version is required' })
-        const res = await axios.get(`${baseUrl}/versions/loader/${minecraftVersion}/${fabricLoader}`)
+        const res = await axios.get(`${baseUrl}/versions/installer`)
+        response.json(res.data)
+    } catch (error: any) {
+        console.error(`Error fetching Installer versions (http://api.thenolle.com${request.originalUrl}): ${error.message}`)
+        response.status(500).json({ error: 'Failed to fetch Installer versions' })
+    }
+})
+
+router.get('/versions/installer/:installerVersion', async (request, response) => {
+    try {
+        const installerVersion:string = String(request.params.installerVersion || '').trim()
+        if (!installerVersion) return response.status(400).json({ error: 'Installer version is required' })
+        const res = await axios.get(`${baseUrl}/versions/installer/${installerVersion}`)
         response.json(res.data)
     } catch (error: any) {
         console.error(`Error fetching Installer versions (http://api.thenolle.com${request.originalUrl}): ${error.message}`)
