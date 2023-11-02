@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'assets')))
 
 
 //? Swagger
-app.use('/docs',
+app.use('/',
     swaggerUiExpress.serve,
     swaggerUiExpress.setup(swaggerOutput, {
         customCssUrl: '/custom-swagger-style.css',
