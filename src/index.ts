@@ -25,6 +25,16 @@ app.use(cors({ origin: '*', credentials: true }))
 app.use(express.static(path.join(__dirname, 'assets')))
 
 
+//- Routes
+app.use('/mydata', RouteMyData) //! My Data
+app.use('/secrets', RouteSecrets) //! Secrets
+app.use('/generate', RouteGenerate) //! Generate
+app.use('/random', RouteRandom) //! Random
+app.use('/games', RouteGames) //! Games
+app.use('/utils', RouteUtils) //! Utilities
+app.use('/softwares', SoftwaresRoute) //! Softwares
+
+
 //? Swagger
 app.use('/',
     swaggerUiExpress.serve,
@@ -34,16 +44,6 @@ app.use('/',
         customSiteTitle: "Nolly's API - Documentation",
     })
 )
-
-
-//- Routes
-app.use('/mydata', RouteMyData) //! My Data
-app.use('/secrets', RouteSecrets) //! Secrets
-app.use('/generate', RouteGenerate) //! Generate
-app.use('/random', RouteRandom) //! Random
-app.use('/games', RouteGames) //! Games
-app.use('/utils', RouteUtils) //! Utilities
-app.use('/softwares', SoftwaresRoute) //! Softwares
 
 
 //= Error handling
