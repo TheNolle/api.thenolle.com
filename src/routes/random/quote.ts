@@ -22,6 +22,8 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     }
 })
 
+// @swagger
+// ignore
 router.post('/', async (request: express.Request, response: express.Response) => {
     try {
         const { password, quotes } = request.body

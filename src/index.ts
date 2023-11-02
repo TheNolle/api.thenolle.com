@@ -2,6 +2,9 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { connectDB } from './mongoose'
+import path from 'path'
+import swaggerUiExpress from 'swagger-ui-express'
+import * as swaggerOutput from './swagger_output.json'
 
 import RouteMyData from './routes/my data/_'
 import RouteSecrets from './routes/secrets/_'
@@ -11,12 +14,26 @@ import RouteGames from './routes/games/_'
 import RouteUtils from './routes/utils/_'
 import SoftwaresRoute from './routes/softwares/_'
 
+
+//+ Database connection
 connectDB()
 
 //* Initialization
 const app = express()
 app.use(express.json())
 app.use(cors({ origin: '*', credentials: true }))
+app.use(express.static(path.join(__dirname, 'assets')))
+
+
+//? Swagger
+app.use('/docs',
+    swaggerUiExpress.serve,
+    swaggerUiExpress.setup(swaggerOutput, {
+        customCssUrl: '/custom-swagger-style.css',
+        customfavIcon: 'favicon.ico',
+        customSiteTitle: "Nolly's API - Documentation",
+    })
+)
 
 
 //- Routes
