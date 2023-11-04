@@ -14,7 +14,7 @@ router.get('/', (request: express.Request, response: express.Response) => {
         author: 'Nolly',
         og_image: `${basePath}/og-image.png`,
         site_url: basePath,
-        docs_url: `${basePath}/docs`,
+        docs_url: `${basePath}/docs/`,
         github_url: packageJson.repository.url,
         twitter_handle: '@TheNolly_',
         favicon: `${basePath}/favicon.ico`,

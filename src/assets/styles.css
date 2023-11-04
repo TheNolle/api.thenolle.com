@@ -39,7 +39,7 @@ body {
 }
 
 #preloader img {
-    user-select: none;
+    pointer-events: none;
     width: 384px;
     height: auto;
     margin-bottom: 1em;
