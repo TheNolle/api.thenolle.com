@@ -24,6 +24,7 @@ body {
 }
 
 #preloader {
+    pointer-events: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -47,6 +48,7 @@ body {
 }
 
 #preloader h1 {
+    pointer-events: none;
     font-size: 2rem;
     font-weight: 400;
     color: #fff;
