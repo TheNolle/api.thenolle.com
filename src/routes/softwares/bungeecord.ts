@@ -5,6 +5,35 @@ import xml2js from 'xml2js'
 const router = express.Router()
 const baseUrl = 'https://ci.md-5.net/job/BungeeCord'
 
+/**
+ * @swagger
+ * /softwares/bungeecord/versions/game:
+ *   get:
+ *     summary: Returns a list of available game versions for BungeeCord.
+ *     tags: [Softwares]
+ *     responses:
+ *       200:
+ *         description: An array of BungeeCord build versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 description: A BungeeCord build version.
+ *                 example: "#1765"
+ *       500:
+ *         description: Error fetching BungeeCord versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Failed to fetch BungeeCord versions
+ */
 router.get('/versions/game', async (request: express.Request, response: express.Response) => {
     try {
         const res = await axios.get(`${baseUrl}/rssAll`)
@@ -17,6 +46,42 @@ router.get('/versions/game', async (request: express.Request, response: express.
     }
 })
 
+/**
+ * @swagger
+ * /softwares/bungeecord/download/{bungeeVersion}:
+ *   get:
+ *     summary: Redirects to the download link for a specific BungeeCord version.
+ *     tags: [Softwares]
+ *     parameters:
+ *       - in: path
+ *         name: bungeeVersion
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The specific version of BungeeCord to download. If not specified, the latest version is used.
+ *         example: "#1765"
+ *     responses:
+ *       200:
+ *         description: Redirect to the BungeeCord.jar download link for the specified version.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               format: uri
+ *               description: The download link for the BungeeCord.jar file.
+ *               example: https://ci.md-5.net/job/BungeeCord/1765/artifact/bootstrap/target/BungeeCord.jar
+ *       500:
+ *         description: Error redirecting to BungeeCord download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Failed to redirect to BungeeCord download
+ */
 router.get('/download/:bungeeVersion?', async (request: express.Request, response: express.Response) => {
     try {
         let bungeeVersion: string = String(request.params.bungeeVersion || '').trim()

@@ -1,10 +1,11 @@
 import 'dotenv/config'
+import packageJson from '../package.json'
 import express from 'express'
 import cors from 'cors'
 import { connectDB } from './mongoose'
 import path from 'path'
+import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
-import * as swaggerOutput from './swagger_output.json'
 
 import RouteMyData from './routes/my data/_'
 import RouteSecrets from './routes/secrets/_'
@@ -36,18 +37,41 @@ app.use('/softwares', SoftwaresRoute) //! Softwares
 
 
 //? Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: `${packageJson.displayName} - Documentation`,
+            version: packageJson.version,
+            description: `${packageJson.description}<br>Here are some useful links: <ul><li><a href='https://discord.com/invite/86yVsMVN9z' target='_blank'>Support Server</a></li><li><a href='https://github.com/thenolle/api.thenolle.com' target='_blank'>GitHub Repository</a></li>`,
+        },
+        servers: [
+            {
+                description: 'Production Server',
+                url: 'https://api.thenolle.com',
+            },
+            {
+                description: 'Development Server',
+                url: 'http://localhost:25000',
+            },
+        ],
+    },
+    apis: [path.join(__dirname, 'routes', '**', '*.ts')],
+}
 app.use('/',
     swaggerUiExpress.serve,
-    swaggerUiExpress.setup(swaggerOutput, {
-        customCssUrl: '/custom-swagger-style.css',
-        customfavIcon: 'favicon.ico',
-        customSiteTitle: "Nolly's API - Documentation",
-    })
+    swaggerUiExpress.setup(
+        swaggerJSDoc(swaggerOptions),
+        {
+            customCssUrl: '/styles.min.css',
+            customfavIcon: 'favicon.ico',
+        }
+    )
 )
 
 
 //= Error handling
-app.use((error: Error, request: express.Request, response: express.Response, next: express.NextFunction) => {
+app.use('*', (error: Error, request: express.Request, response: express.Response, next: express.NextFunction) => {
     console.error(error.stack)
     response.status(500).send('Something broke!')
 })
@@ -56,5 +80,6 @@ app.use((error: Error, request: express.Request, response: express.Response, nex
 //! Startup
 app.listen(process.env.APP_PORT, () => {
     console.clear()
-    console.log(`Server listening on port ${process.env.APP_PORT}`)
+    console.log(`Server listening on port ${process.env.APP_PORT} (url: http://localhost:${process.env.APP_PORT})`)
+    console.log(JSON.stringify(swaggerJSDoc(swaggerOptions), null, 2))
 })

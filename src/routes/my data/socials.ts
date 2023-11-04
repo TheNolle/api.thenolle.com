@@ -2,6 +2,42 @@ import express from 'express'
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /my-data/socials:
+ *   get:
+ *     summary: Fetch my socials.
+ *     tags: [My Data]
+ *     responses:
+ *       200:
+ *         description: My socials.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       description: Social name.
+ *                       example: Discord
+ *                     url:
+ *                       type: string
+ *                       description: Social URL.
+ *                       example: https://discord.com/invite/86yVsMVN9z
+ *       500:
+ *         description: Server error retrieving my socials.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to fetch socials.
+ */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
         response.json([

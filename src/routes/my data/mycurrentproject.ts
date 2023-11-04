@@ -4,6 +4,36 @@ import fs from 'fs'
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /my-data/mycurrentproject:
+ *   get:
+ *     summary: Fetch my current project.
+ *     tags: [My Data]
+ *     responses:
+ *       200:
+ *         description: My current project.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 project:
+ *                   type: string
+ *                   description: My current project.
+ *                   example: api.thenolle.com
+ *       500:
+ *         description: Server error retrieving my current project.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to fetch my current project.
+ */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
         response.send({ project: process.env.CURRENT_PROJECT?.toString() })
@@ -13,8 +43,6 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     }
 })
 
-// @swagger
-// ignore
 router.post('/', async (request: express.Request, response: express.Response) => {
     try {
         const password: string = request.body.password

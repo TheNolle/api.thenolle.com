@@ -60,6 +60,34 @@ const scrapeDownloadLink = async (minecraftVersion: string): Promise<string> => 
     }
 }
 
+/**
+ * @swagger
+ * /softwares/minecraft-server/versions/game:
+ *   get:
+ *     summary: Retrieve a list of all Minecraft server versions available for download.
+ *     tags: [Softwares]
+ *     responses:
+ *       200:
+ *         description: A list of Minecraft server versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *               example: ["1.20.2", "1.20.1", "1.20"]
+ *       500:
+ *         description: Server error retrieving Minecraft server versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to fetch Minecraft Server versions.
+ */
 router.get('/versions/game', async (request: express.Request, response: express.Response) => {
     try {
         response.json(await scrapeAvailableVersions())
@@ -68,6 +96,35 @@ router.get('/versions/game', async (request: express.Request, response: express.
     }
 })
 
+/**
+ * @swagger
+ * /softwares/minecraft-server/download/{minecraftVersion}:
+ *   get:
+ *     summary: Redirect to the download URL for the specified Minecraft server version.
+ *     tags: [Softwares]
+ *     parameters:
+ *       - in: path
+ *         name: minecraftVersion
+ *         description: The version of the Minecraft server to download. Defaults to the latest version if not specified.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: 1.20.2
+ *     responses:
+ *       302:
+ *         description: Redirects to the download URL for the specified Minecraft server version.
+ *       500:
+ *         description: Server error during redirect to Minecraft server download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to fetch Minecraft Server download link.
+ */
 router.get('/download/:minecraftVersion?', async (request: express.Request, response: express.Response) => {
     let minecraftVersion: string = String(request.params.minecraftVersion || '').trim()
     try {

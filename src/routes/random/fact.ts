@@ -1,13 +1,68 @@
 import express from 'express'
 import mongoose from '../../mongoose'
 
-const FactSchema = new mongoose.Schema({
-    fact: { type: String, required: true, unique: true }
-})
+const FactSchema = new mongoose.Schema({ fact: { type: String, required: true, unique: true } })
 const FactModel = mongoose.model('Fact', FactSchema)
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /random/fact:
+ *   get:
+ *     summary: Returns a random fact.
+ *     tags: [Random]
+ *     responses:
+ *       200:
+ *         description: OK.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 fact:
+ *                   type: string
+ *                   description: The generated fact.
+ *                   example: "The first oranges weren't orange."
+ *       404:
+ *         description: No facts available.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: No facts available
+ *       500:
+ *         description: Error getting a random fact.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Error getting a random fact
+ *     examples:
+ *       /random/fact:
+ *         summary: Returns a random fact.
+ *         description: Returns a random fact.
+ *         responses:
+ *           200:
+ *             description: OK.
+ *             content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     fact:
+ *                       type: string
+ *                       description: The generated fact.
+ *                       example: "The first oranges weren't orange."
+ */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
         const count: number = await FactModel.countDocuments()
@@ -21,8 +76,6 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     }
 })
 
-// @swagger
-// ignore
 router.post('/', async (request: express.Request, response: express.Response) => {
     try {
         const { password, facts } = request.body

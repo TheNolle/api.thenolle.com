@@ -38,6 +38,34 @@ const scrapeVersions = async (): Promise<Map<string, string>> => {
     }
 }
 
+/**
+ * @swagger
+ * /softwares/leavesmc/versions:
+ *   get:
+ *     summary: Retrieve a list of all LeavesMC versions available for download.
+ *     tags: [Softwares]
+ *     responses:
+ *       200:
+ *         description: A list of LeavesMC versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *               example: ["1.20.2-4e178db", "1.20.2-b08ac8c", "1.20.2-ba2e042"]
+ *       500:
+ *         description: Server error retrieving LeavesMC versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to get versions.
+ */
 router.get('/versions', async (request: express.Request, response: express.Response) => {
     try {
         const versions = await scrapeVersions()
@@ -48,6 +76,46 @@ router.get('/versions', async (request: express.Request, response: express.Respo
     }
 })
 
+/**
+ * @swagger
+ * /softwares/leavesmc/download/{version}:
+ *   get:
+ *     summary: Redirect to the download URL for the specified LeavesMC version.
+ *     tags: [Softwares]
+ *     parameters:
+ *       - in: path
+ *         name: version
+ *         description: The version of LeavesMC to download. Defaults to the latest version if not specified.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: 1.20.2-4e178db
+ *     responses:
+ *       302:
+ *         description: Redirects to the download URL for the specified LeavesMC version.
+ *       404:
+ *         description: The specified version is invalid or not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Invalid version.
+ *       500:
+ *         description: Server error during redirect to LeavesMC download.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to redirect to LeavesMC download.
+ */
 router.get('/download/:version?', async (request: express.Request, response: express.Response) => {
     let version: string = String(request.params.version || '').trim().toLowerCase()
     try {

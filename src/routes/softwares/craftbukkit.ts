@@ -60,6 +60,35 @@ const scrapeDownloadLink = async (minecraftVersion: string): Promise<string> => 
     }
 }
 
+/**
+ * @swagger
+ * /softwares/craftbukkit/versions/game:
+ *   get:
+ *     summary: Returns a list of available game versions for CraftBukkit.
+ *     tags: [Softwares]
+ *     responses:
+ *       200:
+ *         description: An array of available CraftBukkit versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 description: A version of CraftBukkit.
+ *                 example: "1.20.2"
+ *       500:
+ *         description: Failed to fetch CraftBukkit versions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Failed to fetch CraftBukkit versions
+ */
 router.get('/versions/game', async (request: express.Request, response: express.Response) => {
     try {
         response.json(await scrapeAvailableVersions())
@@ -68,6 +97,42 @@ router.get('/versions/game', async (request: express.Request, response: express.
     }
 })
 
+/**
+ * @swagger
+ * /softwares/craftbukkit/download/{minecraftVersion}:
+ *   get:
+ *     summary: Redirects to the download link for a specific CraftBukkit version.
+ *     tags: [Softwares]
+ *     parameters:
+ *       - in: path
+ *         name: minecraftVersion
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The specific version of CraftBukkit to download. If not specified, the latest version is used.
+ *         example: "1.16.5"
+ *     responses:
+ *       200:
+ *         description: Redirect to the CraftBukkit.jar download link for the specified version.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               format: uri
+ *               description: The download link for the CraftBukkit.jar file.
+ *               example: https://download.getbukkit.org/craftbukkit/craftbukkit-1.20.2.jar
+ *       500:
+ *         description: Failed to fetch CraftBukkit download link.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Failed to fetch CraftBukkit download link
+ */
 router.get('/download/:minecraftVersion?', async (request: express.Request, response: express.Response) => {
     let minecraftVersion: string = String(request.params.minecraftVersion || '').trim()
     try {

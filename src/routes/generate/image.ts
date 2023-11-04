@@ -3,6 +3,106 @@ import Canvas from 'canvas'
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /generate/image:
+ *   get:
+ *     summary: Generate an image.
+ *     tags: [Generate]
+ *     parameters:
+ *       - in: query
+ *         name: width
+ *         required: false
+ *         schema:
+ *           type: number
+ *           minimum: 1
+ *           maximum: 5000
+ *           example: 500
+ *           default: 500
+ *         description: Width of the image.
+ *       - in: query
+ *         name: height
+ *         required: false
+ *         schema:
+ *           type: number
+ *           minimum: 1
+ *           maximum: 5000
+ *           example: 500
+ *           default: 500
+ *         description: Height of the image.
+ *       - in: query
+ *         name: fontSize
+ *         required: false
+ *         schema:
+ *           type: number
+ *           minimum: 1
+ *           maximum: 256
+ *           example: 48
+ *           default: 48
+ *         description: Font size of the text.
+ *       - in: query
+ *         name: font
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: sans-serif
+ *           default: sans-serif
+ *         description: Font of the text.
+ *       - in: query
+ *         name: backgroundColor
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: 000000
+ *           default: 000000
+ *         description: Background color of the image.
+ *       - in: query
+ *         name: textColor
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: ffffff
+ *           default: ffffff
+ *         description: Text color of the text.
+ *       - in: query
+ *         name: text
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: Nolly's API
+ *           default: Nolly's API
+ *         description: Text to display in the image.
+ *       - in: query
+ *         name: type
+ *         required: false
+ *         schema:
+ *           type: string
+ *           example: png
+ *           default: png
+ *         description: Type of the image.
+ *         enum: [png, jpg, jpeg, webp, bmp]
+ *     responses:
+ *       200:
+ *         description: The generated image.
+ *         content:
+ *           image/png:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *               example: Buffer
+ *               description: The generated image.
+ *       500:
+ *         description: Server error generating the image.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: Failed to generate image.
+ */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
         const width: number = Number(request.query.width) > 1 ? Number(request.query.width) < 5000 ? Number(request.query.width) : 5000 : 500

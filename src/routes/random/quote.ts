@@ -9,6 +9,71 @@ const QuoteModel = mongoose.model('Quote', QuoteSchema)
 
 const router = express.Router()
 
+/**
+ * @swagger
+ * /random/quote:
+ *   get:
+ *     summary: Returns a random quote.
+ *     tags: [Random]
+ *     responses:
+ *       200:
+ *         description: OK.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 quote:
+ *                   type: string
+ *                   description: The generated quote.
+ *                   example: "The greatest glory in living lies not in never falling, but in rising every time we fall."
+ *                 author:
+ *                   type: string
+ *                   description: The author of the quote.
+ *                   example: "Nelson Mandela"
+ *       404:
+ *         description: No quotes available.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: No quotes available
+ *       500:
+ *         description: Error getting a random quote.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: Error getting a random quote
+ *     examples:
+ *       /random/quote:
+ *         summary: Returns a random quote.
+ *         description: Returns a random quote.
+ *         responses:
+ *           200:
+ *             description: OK.
+ *             content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   properties:
+ *                     quote:
+ *                       type: string
+ *                       description: The generated quote.
+ *                       example: "The greatest glory in living lies not in never falling, but in rising every time we fall."
+ *                     author:
+ *                       type: string
+ *                       description: The author of the quote.
+ *                       example: "Nelson Mandela"
+ */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
         const count: number = await QuoteModel.countDocuments()
@@ -22,8 +87,6 @@ router.get('/', async (request: express.Request, response: express.Response) => 
     }
 })
 
-// @swagger
-// ignore
 router.post('/', async (request: express.Request, response: express.Response) => {
     try {
         const { password, quotes } = request.body
