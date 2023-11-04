@@ -10,6 +10,7 @@ html {
 }
 
 body {
+    position: relative;
     height: 100vh;
     padding: 0;
     margin: 0;
@@ -20,6 +21,48 @@ body {
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: "nav main";
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #191719;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#preloader img {
+    user-select: none;
+    width: 384px;
+    height: auto;
+    margin-bottom: 1em;
+    animation: heartbeat 1s infinite alternate;
+}
+
+#preloader h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
 }
 
 a {

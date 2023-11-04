@@ -16,12 +16,11 @@ router.get('/', (request: express.Request, response: express.Response) => {
         theme_color: '#ff88ff',
         author: 'Nolly',
         og_image: `${basePath}/og-image.png`,
-        site_url: `${basePath}`,
+        site_url: basePath,
         docs_url: `${basePath}/docs`,
         github_url: packageJson.repository.url,
         twitter_handle: '@TheNolly_',
         favicon: `${basePath}/favicon.ico`,
-        css_base_url: basePath,
         swagger_spec_url: `${basePath}/docs/swagger.json`,
     })
 })

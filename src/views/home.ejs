@@ -22,7 +22,7 @@
     <meta property="og:description" content="<%= description %>" />
     <meta property="og:image" content="<%= og_image %>" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="<%= docs_url %>" />
+    <meta property="og:url" content="<%= site_url %>" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -31,13 +31,17 @@
     <meta name="twitter:title" content="<%= title %>" />
     <meta name="twitter:description" content="<%= description %>" />
     <meta name="twitter:image" content="<%= og_image %>" />
-    <meta name="twitter:url" content="<%= docs_url %>" />
+    <meta name="twitter:url" content="<%= site_url %>" />
 
     <!-- Styles -->
-    <link href="<%= css_base_url %>/styles.min.css" rel="stylesheet">
+    <link href="<%= site_url %>/styles.min.css" rel="stylesheet">
 </head>
 
 <body>
+    <div id="preloader">
+        <img src="<%= site_url %>/preloader.gif" alt="Loading...">
+        <h1>Loading...</h1>
+    </div>
     <nav id="new-sidebar">
         <div class="logo">
             <h1><%= title %></h1>
@@ -53,5 +57,7 @@
         <h1>SOON</h1>
     </main>
 </body>
+
+<script>window.onload = function () {document.getElementById('preloader')?.remove()};</script>
 
 </html>
