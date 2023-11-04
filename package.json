@@ -4,6 +4,10 @@
   "name": "api.thenolle.com",
   "version": "1.4.79-r",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheNolle/api.thenolle.com.git"
+  },
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/index.ts",

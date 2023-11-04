@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title><%= title %> - Documentation</title>
+    <title><%= title %></title>
     <link rel="shortcut icon" href="<%= favicon %>" type="image/x-icon">
 
     <!-- SEO -->
@@ -14,7 +14,7 @@
     <meta name="author" content="<%= author %>">
 
     <!-- OpenGraph -->
-    <meta property="og:title" content="<%= title %> - Documentation" />
+    <meta property="og:title" content="<%= title %>" />
     <meta property="og:description" content="<%= description %>" />
     <meta property="og:image" content="<%= og_image %>" />
     <meta property="og:type" content="website" />
@@ -24,13 +24,12 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="<%= twitter_handle %>" />
     <meta name="twitter:creator" content="<%= twitter_handle %>" />
-    <meta name="twitter:title" content="<%= title %> - Documentation" />
+    <meta name="twitter:title" content="<%= title %>" />
     <meta name="twitter:description" content="<%= description %>" />
     <meta name="twitter:image" content="<%= og_image %>" />
     <meta name="twitter:url" content="<%= docs_url %>" />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/docs/swagger-ui/swagger-ui.css" />
     <link href="<%= css_base_url %>/styles.min.css" rel="stylesheet">
 </head>
 
@@ -41,16 +40,14 @@
             <span class="api-version">API version: <a href="<%= github_url %>" target="_blank" title="Take a look on the github"><%= api_version %></a></s>
         </div>
         <ul class="links">
-            <li class="link"><a href="<%= site_url %>">Home</a></li>
-            <li class="link active"><a href="<%= docs_url %>">Docs</a></li>
+            <li class="link active"><a href="<%= site_url %>">Home</a></li>
+            <li class="link"><a href="<%= docs_url %>">Docs</a></li>
             <li class="link"><a href="<%= github_url %>" target="_blank">Github</a></li>
         </ul>
     </nav>
-    <main id="swagger-ui"></main>
+    <main id="home-ui">
+        <h1>SOON</h1>
+    </main>
 </body>
-
-<script src="/docs/swagger-ui/swagger-ui-bundle.js"></script>
-<script src="/docs/swagger-ui/swagger-ui-standalone-preset.js"></script>
-<script>window.onload=function(){let e=SwaggerUIBundle({url:"<%= swagger_spec_url %>",dom_id:"#swagger-ui",deepLinking:!0,presets:[SwaggerUIBundle.presets.apis,SwaggerUIStandalonePreset],plugins:[SwaggerUIBundle.plugins.DownloadUrl],layout:"StandaloneLayout"});window.ui=e,setTimeout((()=>{document.querySelector("#swagger-ui > section > div.topbar")?.remove(),document.querySelector('#swagger-ui > section > div > div:nth-child(2) > div.information-container.wrapper')?.remove(),document.querySelector("#swagger-ui > section > div.wrapper")?.remove()}),100)};</script>
 
 </html>
