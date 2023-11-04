@@ -53,26 +53,6 @@ const router = express.Router()
  *                   type: string
  *                   description: The error message.
  *                   example: Error getting a random quote
- *     examples:
- *       /random/quote:
- *         summary: Returns a random quote.
- *         description: Returns a random quote.
- *         responses:
- *           200:
- *             description: OK.
- *             content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   properties:
- *                     quote:
- *                       type: string
- *                       description: The generated quote.
- *                       example: "The greatest glory in living lies not in never falling, but in rising every time we fall."
- *                     author:
- *                       type: string
- *                       description: The author of the quote.
- *                       example: "Nelson Mandela"
  */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {

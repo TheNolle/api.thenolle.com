@@ -17,15 +17,15 @@ const router = express.Router()
  *               type: array
  *               items:
  *                 type: object
- *                   properties:
- *                     name:
- *                       type: string
- *                       description: Social name.
- *                       example: Discord
- *                     url:
- *                       type: string
- *                       description: Social URL.
- *                       example: https://discord.com/invite/86yVsMVN9z
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: Social name.
+ *                     example: Discord
+ *                   url:
+ *                     type: string
+ *                     description: Social URL.
+ *                     example: https://discord.com/invite/86yVsMVN9z
  *       500:
  *         description: Server error retrieving my socials.
  *         content:

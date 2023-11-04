@@ -69,34 +69,6 @@ const router = express.Router()
  *                   type: string
  *                   description: The error message.
  *                   example: Error getting a real random
- *     examples:
- *       /random/number:
- *         summary: Generates a random number between 1 and 100.
- *         description: This example generates a random number between 1 and 100.
- *         responses:
- *           200:
- *             description: OK.
- *             content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   properties:
- *                     number:
- *                       type: integer
- *                       description: The generated number.
- *                       example: 42
- *                     from:
- *                       type: integer
- *                       description: The minimum value.
- *                       example: 1
- *                     to:
- *                       type: integer
- *                       description: The maximum value.
- *                       example: 100
- *                     realRandom:
- *                       type: boolean
- *                       description: If true, it was generated using the Random.org API.
- *                       example: false
  */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {

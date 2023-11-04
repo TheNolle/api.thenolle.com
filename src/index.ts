@@ -5,7 +5,7 @@ import cors from 'cors'
 import { connectDB } from './mongoose'
 import path from 'path'
 import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUiExpress from 'swagger-ui-express'
+import { getAbsoluteFSPath } from 'swagger-ui-dist'
 
 import RouteMyData from './routes/my data/_'
 import RouteSecrets from './routes/secrets/_'
@@ -24,6 +24,8 @@ const app = express()
 app.use(express.json())
 app.use(cors({ origin: '*', credentials: true }))
 app.use(express.static(path.join(__dirname, 'assets')))
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 
 
 //- Routes
@@ -37,37 +39,42 @@ app.use('/softwares', SoftwaresRoute) //! Softwares
 
 
 //? Swagger
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: `${packageJson.displayName} - Documentation`,
-            version: packageJson.version,
-            description: `${packageJson.description}<br>Here are some useful links: <ul><li><a href='https://discord.com/invite/86yVsMVN9z' target='_blank'>Support Server</a></li><li><a href='https://github.com/thenolle/api.thenolle.com' target='_blank'>GitHub Repository</a></li>`,
+const basePath = process.env.APP_STATUS === 'development' ? 'http://localhost:25000' : 'https://api.thenolle.com'
+app.get('/docs', (request: express.Request, response: express.Response) => {
+    response.render('swagger', {
+        title: `${packageJson.displayName} - Documentation`,
+        description: packageJson.description,
+        keywords: 'api, documentation, swagger, nolly, thenolle',
+        theme_color: '#ff88ff',
+        author: 'Nolly',
+        og_image: `${basePath}/og-image.png`,
+        site_url: `${basePath}/docs`,
+        twitter_handle: '@TheNolly_',
+        favicon: `${basePath}/favicon.ico`,
+        cssUrl: `${basePath}/styles.min.css`,
+        swaggerSpecUrl: `${basePath}/swagger.json`,
+    })
+})
+app.get('/swagger.json', (request: express.Request, response: express.Response) => {
+    response.setHeader('Content-Type', 'application/json')
+    response.setHeader('Access-Control-Allow-Origin', '*')
+    response.send(swaggerJSDoc({
+        definition: {
+            openapi: '3.0.0',
+            info: {
+                title: `${packageJson.displayName} - Documentation`,
+                version: packageJson.version,
+                description: packageJson.description,
+            },
+            servers: [
+                { description: 'Production Server', url: 'https://api.thenolle.com', },
+                { description: 'Development Server', url: 'http://localhost:25000', },
+            ],
         },
-        servers: [
-            {
-                description: 'Production Server',
-                url: 'https://api.thenolle.com',
-            },
-            {
-                description: 'Development Server',
-                url: 'http://localhost:25000',
-            },
-        ],
-    },
-    apis: [path.join(__dirname, 'routes', '**', '*.ts')],
-}
-app.use('/',
-    swaggerUiExpress.serve,
-    swaggerUiExpress.setup(
-        swaggerJSDoc(swaggerOptions),
-        {
-            customCssUrl: '/styles.min.css',
-            customfavIcon: 'favicon.ico',
-        }
-    )
-)
+        apis: [path.join(__dirname, 'routes', '**', '*.ts')],
+    }))
+})
+app.use('/swagger-ui', express.static(getAbsoluteFSPath()))
 
 
 //= Error handling
@@ -81,5 +88,4 @@ app.use('*', (error: Error, request: express.Request, response: express.Response
 app.listen(process.env.APP_PORT, () => {
     console.clear()
     console.log(`Server listening on port ${process.env.APP_PORT} (url: http://localhost:${process.env.APP_PORT})`)
-    console.log(JSON.stringify(swaggerJSDoc(swaggerOptions), null, 2))
 })

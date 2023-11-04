@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title><%= title %></title>
+    <link rel="shortcut icon" href="https://api.thenolle.com/<%= favicon %>" type="image/x-icon">
+
+    <!-- SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= description %>">
+    <meta name="keywords" content="<%= keywords %>">
+    <meta name="theme-color" content="<%= theme_color %>">
+    <meta name="author" content="<%= author %>">
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="<%= title %>" />
+    <meta property="og:description" content="<%= description %>" />
+    <meta property="og:image" content="https://api.thenolle.com/<%= og_image %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= site_url %>" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="<%= twitter_handle %>" />
+    <meta name="twitter:creator" content="<%= twitter_handle %>" />
+    <meta name="twitter:title" content="<%= title %>" />
+    <meta name="twitter:description" content="<%= description %>" />
+    <meta name="twitter:image" content="https://api.thenolle.com/<%= og_image %>" />
+    <meta name="twitter:url" content="<%= site_url %>" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/swagger-ui/swagger-ui.css" />
+    <link href="<%= cssUrl %>" rel="stylesheet">
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+</body>
+
+<script src="/swagger-ui/swagger-ui-bundle.js"></script>
+<script src="/swagger-ui/swagger-ui-standalone-preset.js"></script>
+<script>window.onload=function(){let e=SwaggerUIBundle({url:"<%= swaggerSpecUrl %>",dom_id:"#swagger-ui",deepLinking:!0,presets:[SwaggerUIBundle.presets.apis,SwaggerUIStandalonePreset],plugins:[SwaggerUIBundle.plugins.DownloadUrl],layout:"StandaloneLayout"});window.ui=e};</script>
+
+</html>

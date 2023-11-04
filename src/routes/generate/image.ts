@@ -79,8 +79,8 @@ const router = express.Router()
  *           type: string
  *           example: png
  *           default: png
+ *           enum: [png, jpg, jpeg, webp, bmp]
  *         description: Type of the image.
- *         enum: [png, jpg, jpeg, webp, bmp]
  *     responses:
  *       200:
  *         description: The generated image.

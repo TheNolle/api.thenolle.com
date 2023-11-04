@@ -46,22 +46,6 @@ const router = express.Router()
  *                   type: string
  *                   description: The error message.
  *                   example: Error getting a random fact
- *     examples:
- *       /random/fact:
- *         summary: Returns a random fact.
- *         description: Returns a random fact.
- *         responses:
- *           200:
- *             description: OK.
- *             content:
- *               application/json:
- *                 schema:
- *                   type: object
- *                   properties:
- *                     fact:
- *                       type: string
- *                       description: The generated fact.
- *                       example: "The first oranges weren't orange."
  */
 router.get('/', async (request: express.Request, response: express.Response) => {
     try {
