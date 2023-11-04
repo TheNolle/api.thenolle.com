@@ -9,7 +9,7 @@ router.get('/', (request: express.Request, response: express.Response) => {
         api_version: packageJson.version,
         title: packageJson.displayName,
         description: packageJson.description,
-        keywords: 'api, documentation, nolly, thenolle',
+        keywords: 'API, Nolly, utilities, tools, web services, RESTful API, online API, developer tools, API integration, software development, API documentation, quick utilities, fun features, API services, multi-purpose API, free API, API for developers, programming interface, tech tools, API platform, digital services, API access, API endpoints, customizable API, API solutions, tech solutions, API testing, data services, API for software, application programming interface, web development',
         theme_color: '#ff88ff',
         author: 'Nolly',
         og_image: `${basePath}/og-image.png`,
